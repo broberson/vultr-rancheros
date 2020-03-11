@@ -1,0 +1,26 @@
+#cloud-config
+ssh_authorized_keys:
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDceqGHKwzbcjmPgbtScOza0Zsv+MHfs/AqtKdV1J+Tr8l5RYXmb2u4PznDhJFZlM763WcCIaCEW7dbTnE297YQfHJS9z3b0of27MdABhrgNI/6DJLv9+E3AfroYnj6ixLFRifenSeV4qwik8/nSiGhjdbcSUaHLZr8qjId8f46MQYd+llVyyygNoLkSvrX3jXNuH3ZkZH8tRJzJXUx7BMLma3uaIe3IwFjS0S1NvW6zi5I5WZB0sv84tcf9ICtxGS/4an9NghS7Oh9tg8tfslRP6ifi8Ph7S+k0itUP+EUVF8m91bVuyxtCAVQOpVN+8XJiKl8q0d3egeGp22M6fHD5ChkyLdy2/3k96Z76AtvGkPsNtGfMtyxKL85aiqoy2KmzwhKNcuLlqH1KX59jR6e9n1lra3FvNSx452IjdYQsZizml8LI1SzISBUVN/CDm2l4z7Rzwr/QySlS2Pg0Uzt/eLYIcNu0sWZmIoITTJ0rLUlfiFoQCLPntAj0Wxliz8AcNI6uib/GKbKGkbK3zg4UUa6XLImnaZS6vd5ZVIFBWMk/i7p8t0AfKmoP0XglpKRaCACKjRZ7qXr9/NiHKrmFgM/gLQTm0+1svItIv2MTamb+9tmK/IAa7lD9D51xKgigKuKOIAk+MCfTMNfkc+qk5cICH8/gP8ovao4hJu+PQ== radiocustomsdev@gmail.com
+
+write_files:
+  - path: /cloud-config.yml
+    permissions: "0700"
+    owner: root
+    content: |
+      #cloud-config
+      ssh_authorized_keys:
+        - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDceqGHKwzbcjmPgbtScOza0Zsv+MHfs/AqtKdV1J+Tr8l5RYXmb2u4PznDhJFZlM763WcCIaCEW7dbTnE297YQfHJS9z3b0of27MdABhrgNI/6DJLv9+E3AfroYnj6ixLFRifenSeV4qwik8/nSiGhjdbcSUaHLZr8qjId8f46MQYd+llVyyygNoLkSvrX3jXNuH3ZkZH8tRJzJXUx7BMLma3uaIe3IwFjS0S1NvW6zi5I5WZB0sv84tcf9ICtxGS/4an9NghS7Oh9tg8tfslRP6ifi8Ph7S+k0itUP+EUVF8m91bVuyxtCAVQOpVN+8XJiKl8q0d3egeGp22M6fHD5ChkyLdy2/3k96Z76AtvGkPsNtGfMtyxKL85aiqoy2KmzwhKNcuLlqH1KX59jR6e9n1lra3FvNSx452IjdYQsZizml8LI1SzISBUVN/CDm2l4z7Rzwr/QySlS2Pg0Uzt/eLYIcNu0sWZmIoITTJ0rLUlfiFoQCLPntAj0Wxliz8AcNI6uib/GKbKGkbK3zg4UUa6XLImnaZS6vd5ZVIFBWMk/i7p8t0AfKmoP0XglpKRaCACKjRZ7qXr9/NiHKrmFgM/gLQTm0+1svItIv2MTamb+9tmK/IAa7lD9D51xKgigKuKOIAk+MCfTMNfkc+qk5cICH8/gP8ovao4hJu+PQ== radiocustomsdev@gmail.com
+
+      rancher:
+        services:
+          rancher-server:
+            image: rancher/server:latest
+            ports:
+              - 8080:8080
+            restart: always
+  - path: /opt/rancher/bin/start.sh
+    permissions: "0700"
+    owner: root
+    content: |
+      #!/bin/bash
+      echo y | ros install -f -c /cloud-config.yml -d /dev/vda
