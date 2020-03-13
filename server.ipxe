@@ -1,11 +1,8 @@
 #!ipxe
+set base-url http://releases.rancher.com/os/latest
 
-# Location of Kernel/Initrd images
-set base-url https://releases.rancher.com/os/latest
-
-kernel ${base-url}/vmlinuz rancher.state.dev=LABEL=RANCHER_STATE -- rancher.cloud_init.datasources=[url:https://raw.githubusercontent.com/broberson/vultr-rancheros/master/cloud-config-server.yml]
+kernel ${base-url}/vmlinuz console=tty1 rancher.autologin=tty1 rancher.state.dev=LABEL=RANCHER_STATE rancher.state.formatzero=true rancher.state.autoformat=[/dev/sda,/dev/vda] rancher.cloud_init.datasources=[ec2]
 
 initrd ${base-url}/initrd
 
 boot
-
